@@ -125,9 +125,6 @@ fi
 bash "${devbox_dir}/scripts/host/configure_etc_hosts.sh"
 
 status "Configuring kubernetes cluster on the minikube"
-# TODO: Optimize. Helm tiller must be initialized and started before environment configuration can begin
-helm init --wait
-#waitForKubernetesPodToRun 'tiller-deploy'
 
 # TODO: Do not clean up environment when '-f' flag was not specified
 bash "${devbox_dir}/scripts/host/k_install_environment.sh"
