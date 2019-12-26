@@ -49,3 +49,12 @@ dev url:
    path: magento.$(getContext).localhost
    debuger: blackfire.io
 
+
+git:
+
+
+   git remote add magento git@github.com:magento/magento2-kubernetes-devbox.git
+   git pull magento <specific-branch-name>
+
+   git request-pull v1.0 https://github.com/serge-kaimin/magento2-kubernetes-devbox minikube
+   git request-pull v1.0 https://github.com/serge-kaimin/magento2-kubernetes-devbox helm3
