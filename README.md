@@ -68,7 +68,11 @@ If you never used Kubernetes before, read the [Kubernetes Docs](https://kubernet
 The software listed below should be available in [PATH](https://en.wikipedia.org/wiki/PATH_\(variable\)) (except for PHP Storm).
 
 - [Docker](https://docs.docker.com/docker-for-mac/install/)
-- [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+- [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) - Ensure to setup required for your dev environment parameters:<br />
+minikube config set vm-driver virtualbox<br />
+#minikube config set kubernetes-version v1.16.3<br />
+minikube config set memory 4096<br />
+minikube config set cpus 2<br />
 - [Helm](https://docs.helm.sh/using_helm/#installing-helm)
 - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) - Ensure that SSH keys are generated and associated with your Github account. See [how to check](https://help.github.com/articles/testing-your-ssh-connection/) and [how to configure](https://help.github.com/articles/generating-ssh-keys/), if not configured.<br />
