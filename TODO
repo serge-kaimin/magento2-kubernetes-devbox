@@ -48,6 +48,8 @@ init_project.sh:
     disable ability to run init_project after first successfull run
     full run with SPECIAL confirmation only
     .initialized FLAG?
+    $(isMinikubeInitialized)
+
 
 dev url:
    path: magento.$(getContext).localhost
