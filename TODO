@@ -44,6 +44,10 @@ path:
     magento_ce_dir="${devbox_dir}/$(getContext)"
     magento_ce_dir="${devbox_dir}/magento2" ???
 
+init_project.sh:
+    disable ability to run init_project after first successfull run
+    full run with SPECIAL confirmation only
+    .initialized FLAG?
 
 dev url:
    path: magento.$(getContext).localhost
