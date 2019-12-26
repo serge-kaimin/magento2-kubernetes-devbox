@@ -1,0 +1,51 @@
+helm:
+    v2:
+
+    v3:
+
+    repo:
+        https://github.com/kmzfs/helm-repo-in-github
+        https://medium.com/@mattiaperi/create-a-public-helm-chart-repository-with-github-pages-49b180dbb417
+
+        https://github.com/shiftedreality/magento-kubernetes-components
+
+minikube:
+    --kubernetes-version=v1.15.6 -v=0 --cpus=2 --memory=4096
+    minikube start --kubernetes-version=v1.15.6 -v=0 --cpus=2 --memory=4096
+    minikube config set kubernetes-version v1.15.6
+    minikube addons enable heapster
+    minicube config:
+        https://minikube.sigs.k8s.io/docs/reference/configuration/minikube/
+
+        minikube config set vm-driver virtualbox
+        minikube config set kubernetes-version v1.16.3
+        minikube config set memory 4096
+        minikube config set cpus 2
+        minikube config set disk 20000MB
+        minikube config set cache-images 
+        minikube config set v 0
+        minikube config view
+    nfs:
+        http://pietervogelaar.nl/minikube-nfs-mounts
+
+    remove: 
+        v1.15.6
+        move minikube options to pre-requirements
+
+environment:
+    etc/ide/vscode/
+    etc/ide/phpstorm/
+
+    ide: vscode
+    ide: phpstorm
+
+path:
+    /var/www/magento2/
+    magento_ce_dir="${devbox_dir}/$(getContext)"
+    magento_ce_dir="${devbox_dir}/magento2" ???
+
+
+dev url:
+   path: magento.$(getContext).localhost
+   debuger: blackfire.io
+
