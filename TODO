@@ -62,3 +62,27 @@ git:
 
    git request-pull v1.0 https://github.com/serge-kaimin/magento2-kubernetes-devbox minikube
    git request-pull v1.0 https://github.com/serge-kaimin/magento2-kubernetes-devbox helm3
+
+commands:
+    bin/bash magento    # or bin/ssh magento
+    bin/bash mariadb
+    bin/bash elasticsearch
+    bin/bash [container-name]
+
+    bin/mysql           # cli to mysql server
+
+    bin/magento list  # run bin/composer on magento's container
+    bin/magento 
+    bin/composer      # run composer on magento's container
+
+    bin/test phpunit
+    bin/test functional
+
+    bin/deploy staging # init deployment of project to staging server
+    
+    bin/switch status
+    bin/switch ce
+    bin/switch ee
+
+    bin/context get
+    bin/context set
