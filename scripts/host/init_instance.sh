@@ -23,31 +23,34 @@ done
 
 source "${devbox_dir}/scripts/functions.sh"
 
-status "Initializing instance '${Instance}'"
-incrementNestingLevel
-
-exit
-
-config_path="${devbox_dir}/etc/instance/$(getContext).yaml"
+config_path="${devbox_dir}/etc/instance/${Instance}.yaml"
 
 if [[ ! -f "${config_path}" ]]; then
-    status "Initializing etc/instance/$(getContext).yaml using defaults from etc/instance/config.yaml.dist"
+    status "Instance ${Instance} not found."
+    status "Initializing etc/instance/${Instance}.yaml using defaults from etc/instance/config.yaml.dist"
     cp "${devbox_dir}/etc/instance/config.yaml.dist" "${config_path}"
 fi
 
-magento_ce_dir="${devbox_dir}/$(getContext)"
+# Parse [instance].yaml file to variables with prefix Instance_ 
+. ${devbox_dir}/scripts/host/parse_yaml_to_variables.sh ${config_path} Instance_ # echo yaml
+eval $(${devbox_dir}/scripts/host/parse_yaml_to_variables.sh ${config_path} Instance_ )
+
+status "Initializing instance '${Instance}'"
+incrementNestingLevel
+
+magento_ce_dir="${devbox_dir}/${Instance}"
 magento_ce_sample_data_dir="${magento_ce_dir}/magento2ce-sample-data"
 magento_ee_dir="${magento_ce_dir}/magento2ee"
 magento_ee_sample_data_dir="${magento_ce_dir}/magento2ee-sample-data"
 host_os="$(bash "${devbox_dir}/scripts/host/get_host_os.sh")"
-use_nfs="$(bash "${devbox_dir}/scripts/get_env_config_value.sh" "guest_use_nfs")"
-nfs_server_ip="$(bash "${devbox_dir}/scripts/get_env_config_value.sh" "guest_nfs_server_ip")"
-repository_url_ce="$(bash "${devbox_dir}/scripts/get_config_value.sh" "repository_url_ce")"
-repository_url_ee="$(bash "${devbox_dir}/scripts/get_config_value.sh" "repository_url_ee")"
-composer_project_name="$(bash "${devbox_dir}/scripts/get_config_value.sh" "composer_project_name")"
-composer_project_url="$(bash "${devbox_dir}/scripts/get_config_value.sh" "composer_project_url")"
-checkout_source_from="$(bash "${devbox_dir}/scripts/get_config_value.sh" "checkout_source_from")"
-use_git_shallow_clone="$(bash "${devbox_dir}/scripts/get_config_value.sh" "repository_url_shallow_clone")"
+use_nfs=${Instance_guest_use_nfs}
+nfs_server_ip=${Instance_guest_nfs_server_ip}
+repository_url_ce=${Instance_repository_url_ce}
+repository_url_ee=${Instance_repository_url_ee}
+composer_project_name=${Instance_composer_project_name}
+composer_project_url=${Instance_composer_project_url}
+checkout_source_from=${Instance_checkout_source_from}
+use_git_shallow_clone=${Instance_repository_url_shallow_clone}
 
 function checkoutSourceCodeFromGit()
 {
