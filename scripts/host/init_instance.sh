@@ -1,11 +1,32 @@
 #!/usr/bin/env bash
+# @Arguments: -n -i -c
+# Initialize helm instances by name
+# Example:
+#    ./scripts/host/init_instance.sh -n magento2
+
 
 cd "$(dirname "${BASH_SOURCE[0]}")/../.." && devbox_dir=$PWD
 
+force_instance_cleaning=0
+force_codebase_cleaning=0
+while getopts 'icn::' flag; do
+  case "${flag}" in
+    i) # force instance cleaning
+        force_instance_cleaning=1 ;;
+    c) # force codebase cleaning
+        force_codebase_cleaning=1 ;;
+    n) # parse as instance name
+        Instance=$OPTARG ;;
+    *) error "Unexpected option" && exit 1;;
+  esac
+done
+
 source "${devbox_dir}/scripts/functions.sh"
 
-status "Initializing instance '$(getContext)'"
+status "Initializing instance '${Instance}'"
 incrementNestingLevel
+
+exit
 
 config_path="${devbox_dir}/etc/instance/$(getContext).yaml"
 
@@ -161,16 +182,6 @@ function composerCreateProject()
 #        fi
     fi
 }
-
-force_instance_cleaning=0
-force_codebase_cleaning=0
-while getopts 'ic' flag; do
-  case "${flag}" in
-    i) force_instance_cleaning=1 ;;
-    c) force_codebase_cleaning=1 ;;
-    *) error "Unexpected option" && exit 1;;
-  esac
-done
 
 ## Cleaning Magento instance
 if [[ ${force_instance_cleaning} -eq 1 ]]; then
