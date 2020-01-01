@@ -72,6 +72,9 @@ environment_versions()
 
     #TODO check if virtualbox not installed
     Environment_virtualbox=$(vboxmanage --version)
+    #TODO check if kubeadm not installed
+    Environment_kubeadm=$(kubeadm version -o short)
+    Environment_minikube=$(minikube version | tr -s ' ' | cut -d ' ' -f 3)
 
     case ${environment_ARGV[1]} in
         devbox) 
@@ -82,21 +85,26 @@ environment_versions()
             ;;
         minikube)
             #TODO get short version
-            minikube version | tr -s ' ' | cut -d ' ' -f 3
+            echo "${Environment_minikube}"
             ;;
         autocompletion)
             echo "${Devbox_autocomletion}"
             ;;
+        kubeadm)  
+            echo "${Environment_kubeadm}"
+            ;;
         *)
+            #TODO check if not installed, mark red 
             echo "devbox.sh script version: ${Devbox_version}"
+            #TODO check if Devbox_version != Devbox_autocomletion, mark yelow
             echo "devbox.sh autocompletion: ${Devbox_autocomletion}"
             echo "devbox.sh workdir path: ${Devbox_WORKDIR}"
             echo "BASH version: ${Environment_bash}"
             echo "OS: ${host_os}"
-            echo "virtualbox: ${environment_virtualbox}"
-            minikube version
+            echo "virtualbox: ${Environment_virtualbox}"
+            echo "Minikube: ${Environment_minikube}"
             #TODO kubectl version
-            echo "kubeadm version: $(kubeadm version -o short)"
+            echo "kubeadm version: ${Environment_kubeadm}"
             #TODO helm version
          ;;
     esac
