@@ -1,0 +1,3 @@
+Release notes:
+    v0.0.1beta (Jan-01-2020)
+        Initial release

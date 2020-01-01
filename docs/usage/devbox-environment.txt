@@ -1,0 +1,17 @@
+Usage: 
+    devbox environment COMMAND [OPTIONS]
+    bin/environment.sh COMMAND [OPTIONS]
+
+  Manage development environment for Magento Commerce 
+
+Options:
+  -h, --help    - Help 
+  -v, --verbose - verbose output
+
+Management Commands:
+    create      - create new environment from command prompts
+    init        - init existing or created environment 
+    start       - start dev environment
+    status      - show status of the dev environment 
+    stop        - stop dev environment  and all of the components
+    delete      - delete dev environment 

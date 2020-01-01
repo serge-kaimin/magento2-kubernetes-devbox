@@ -1,0 +1,21 @@
+Usage: devbox COMMAND [OPTIONS]
+
+  A self-suficient development environment manager for Magento Commerce
+
+Options:
+  -h, --help    - Help on context
+  -v, --verbose - Verbose output
+
+Management Commands while environment is not initialized
+    environment - create and init developemnt environment
+    show        - show current configuration
+
+Commands available after initialization
+    environment - start, status, stop, delete and prune devbox's environment
+    instance    - list, install, update, upgrade instance using Helm in Kubenetes cluster
+    get         - gets value(s) from etc/devenv.yaml
+    set         - sets value in etc/devenv.yaml
+    
+    ssh         - ssh to container
+    magento     - run bin/magento inside container
+    composer    - run composer inside container
