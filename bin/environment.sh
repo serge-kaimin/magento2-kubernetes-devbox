@@ -75,6 +75,8 @@ environment_versions()
     #TODO check if kubeadm not installed
     Environment_kubeadm=$(kubeadm version -o short)
     Environment_minikube=$(minikube version | tr -s ' ' | cut -d ' ' -f 3)
+    #minikube kubectl -- --version
+
 
     case ${environment_ARGV[1]} in
         devbox) 
@@ -101,6 +103,10 @@ environment_versions()
             echo "devbox.sh workdir path: ${Devbox_WORKDIR}"
             echo "BASH version: ${Environment_bash}"
             echo "OS: ${host_os}"
+            echo "Linux kernel version: $(uname -r)"
+            #Environment_description="$(lsb_release -a | grep Description)"
+            #echo ${Environment_description}
+            hostnamectl
             echo "virtualbox: ${Environment_virtualbox}"
             echo "Minikube: ${Environment_minikube}"
             #TODO kubectl version
