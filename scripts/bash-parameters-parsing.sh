@@ -12,14 +12,21 @@
 # @author Sergey Kaimin
 # @version v1.5.0 (Dec-31-2019)
 # @TODO: Remove: $Arg_parser_prefix Add parsing argument: -pRfx=Devbox_
+# @TODO: add Devbox_arg_v for variables
+# @TODO: -OPT 1 put Devbox_arg_OPT="1"
 parse_params ()
 {
     local existing_named
-    local ARGV=() # un-named params
-    local ARGN=() # named params
-    local ARGO=() # options (--params)
+    # shellcheck disable=SC2034
+    #local ARGV=() # un-named params
+    # shellcheck disable=SC2034
+    #local ARGN=() # named params
+    # shellcheck disable=SC2034
+    #local ARGO=() # options (--params)
+    #TODO refactoring required to not use external variable Arg_parser_prefix
+    # shellcheck disable=SC2154
     Prefix=$Arg_parser_prefix
-    echo "local ${Prefix}ARGV=(); local ${Prefix}ARGN=(); local ${Prefix}ARGO=();"
+    echo "${Prefix}ARGV=(); ${Prefix}ARGN=(); ${Prefix}ARGO=();"
     while [[ "$1" != "" ]]; do
         # Escape asterisk to prevent bash asterisk expansion, and quotes to prevent string breakage
         _escaped=${1/\*/\'\"*\"\'}
@@ -31,7 +38,8 @@ parse_params ()
             # Add to named parameters array
             echo "${Prefix}ARGN+=('$_escaped');"
             # key is part before first =
-            local _key=$(echo "$1" | cut -d = -f 1)
+            local _key
+            _key=$(echo "$1" | cut -d = -f 1)
             # Just add as non-named when key is empty or contains space
             if [[ "$_key" == "" || "$_key" =~ " " ]]; then
                 echo "${Prefix}ARGV+=('$_escaped');"
@@ -48,13 +56,13 @@ parse_params ()
                 # if name already exists then it's a multi-value named parameter
                 # re-declare it as an array if needed
                 if ! (declare -p _key 2> /dev/null | grep -q 'declare \-a'); then
-                    echo "${Prefix}$_key=(\"\$$_key\");"
+                    echo "${Prefix}'_arg_'$_key=(\"\$$_key\");"
                 fi
                 # append new value
-                echo "${Prefix}$_key+=('$_val');"
+                echo "${Prefix}_arg_$_key+=('$_val');"
             else
                 # single-value named parameter
-                echo "local ${Prefix}$_key='$_val';"
+                echo "${Prefix}_arg_$_key='$_val';"
                 existing_named=" $_key"
             fi
         # If standalone named parameter
@@ -69,7 +77,7 @@ parse_params ()
             fi
             # Add to options array
             echo "${Prefix}ARGO+=('$_escaped');"
-            echo "local ${Prefix}$_key=\"$_key\";"
+            echo "${Prefix}$_key=\"$_key\";"
         # non-named parameter
         else
             # Escape asterisk to prevent bash asterisk expansion
@@ -82,17 +90,17 @@ parse_params ()
 
 #--------------------------- DEMO OF THE USAGE -------------------------------
 
-show_use ()
-{
-    eval $(parse_params "$@")
-    # --
-    echo "${ARGV[0]}" # print first unnamed param
-    echo "${ARGV[1]}" # print second unnamed param
-    echo "${ARGN[0]}" # print first named param
-    echo "${ARG0[0]}" # print first option param (--force)
-    echo "$anyparam"  # print --anyparam value
-    echo "$k"         # print k=5 value
-    echo "${multivalue[0]}" # print first value of multi-value
-    echo "${multivalue[1]}" # print second value of multi-value
-    [[ "$force" == "force" ]] && echo "\$force is set so let the force be with you"
-}
+#show_use ()
+#{
+#    eval $(parse_params "$@")
+#    # --
+#    echo "${ARGV[0]}" # print first unnamed param
+#    echo "${ARGV[1]}" # print second unnamed param
+#    echo "${ARGN[0]}" # print first named param
+#    echo "${ARG0[0]}" # print first option param (--force)
+#    echo "$anyparam"  # print --anyparam value
+#    echo "$k"         # print k=5 value
+#    echo "${multivalue[0]}" # print first value of multi-value
+#    echo "${multivalue[1]}" # print second value of multi-value
+#    [[ "$force" == "force" ]] && echo "\$force is set so let the force be with you"
+#}
