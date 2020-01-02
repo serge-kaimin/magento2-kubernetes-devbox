@@ -15,3 +15,4 @@ Management Commands
     ssh         - ssh to container
     magento     - run bin/magento inside container
     composer    - run composer inside container
+    yarn        - dependency manager

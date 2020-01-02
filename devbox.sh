@@ -1,10 +1,10 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
+#
 # devbox tool to manage Magento Commerce development environment
 #
-# @Arguments: [environment|instance|ssh|magento|composer|version|get|set|show] [--force|--verbose|--version|--help]
+# @Arguments: [environment|instance|ssh|magento|composer|yarn|version|get|set|show] [--force|--verbose|--version|--help]
 # @author Sergey Kaimin (serge.kaimin@gmail.com)
-# @version 0.0.1beta (Jan-01-2020)
+# @version 0.0.2beta (Jan-02-2020)
 # @source https://github.com/serge-kaimin/magento2-kubernetes-devbox
 
 # make script exit when a command fails.
@@ -227,6 +227,10 @@ case ${Devbox_ARGV[0]} in
         ;;
     composer) 
         "${devbox_dir}"/bin/composer "${Devbox_ARGV[1]}"
+        ;;
+
+    yarn)
+        "${devbox_dir}"/bin/yarn "${Devbox_ARGV[1]}"
         ;;
     get) 
         "${devbox_dir}"/bin/get "${Devbox_ARGV[1]}" 
