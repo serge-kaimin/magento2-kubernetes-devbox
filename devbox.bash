@@ -4,7 +4,7 @@
 #
 # @Arguments: [environment|instance|ssh|magento|composer|yarn|version|get|set|show] [--force|--verbose|--version|--help]
 # @author Sergey Kaimin (serge.kaimin@gmail.com)
-# @version 0.0.2beta (Jan-02-2020)
+# @version 0.0.3beta (Jan-02-2020)
 # @source https://github.com/serge-kaimin/magento2-kubernetes-devbox
 # shellcheck disable=SC2154
 # shellcheck disable=SC1090
@@ -17,7 +17,7 @@ set -o errexit
 #
 [ -z "${Devbox_WORKDIR}" ] && devbox_dir=$PWD || devbox_dir=${Devbox_WORKDIR}
 
-Devbox_version=$(grep @version -m 1 "${devbox_dir}"/devbox.sh | tr -s ' ' | cut -d ' ' -f 3)
+Devbox_version=$(grep @version -m 1 "${devbox_dir}"/devbox.bash | tr -s ' ' | cut -d ' ' -f 3)
 
 # TODO Load etc/Devbox.yaml
 
@@ -42,7 +42,7 @@ then
     echo "Verbose mode enabled"
     if [[ -n ${Devbox_WORKDIR} ]];
     then
-        echo "devbox.sh WORKDIR set to: ${Devbox_WORKDIR}/"
+        echo "devbox.bash WORKDIR set to: ${Devbox_WORKDIR}/"
     fi
     # shellcheck disable=SC2046
     parse_params "$@"
@@ -74,7 +74,7 @@ devbox_help ()
 }
 
 #
-## Display version and release notes of devbox.sh
+## Display version and release notes of devbox.bash
 #
 devbox_version () 
 {
@@ -83,7 +83,7 @@ devbox_version ()
         echo "${Devbox_version}"
     else
         # Display full version details
-        echo "devbox.sh, version: ${Devbox_version}"
+        echo "devbox.bash, version: ${Devbox_version}"
         echo "Open Software License (OSL 3.0) [https://opensource.org/licenses/OSL-3.0]."
         echo ""
         echo "This is free software; you are free to change and redistribute it."
@@ -123,7 +123,7 @@ devbox_instance ()
         *) 
             echo ""
             echo "Error: unknown command"
-            echo "Run './devbox.sh help' for usage."
+            echo "Run './devbox.bash help' for usage."
             echo ""
         ;;
     esac
@@ -162,8 +162,8 @@ function devbox_run() {
                 # print instruction to setup bash autocompletion if --verbose
                 echo ""
                 echo "---------------------------------------------------------------------"
-                echo "To setup bash autocompletion for devbox.sh run:"
-                echo "  source <(devbox.sh autocompletion bash) "
+                echo "To setup bash autocompletion for devbox.bash run:"
+                echo "  source <(devbox.bash autocompletion bash) "
                 echo "or install:"
                 echo "  sudo ln -s ${devbox_dir}/docs/usage/devbox_autocompletion.sh /etc/bash_completion.d/devbox"
                 echo "  (you need to logout and login after installation)"

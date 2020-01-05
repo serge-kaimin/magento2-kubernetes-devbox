@@ -28,7 +28,7 @@ if [ -d "./../bin/" ] && [ -n "${Devbox_WORKDIR}" ]; then
   echo "should you change directory"
   echo "  cd ../bin | bin/environment.sh"
   echo "        or" 
-  echo "  export Devbox_WORKDIR=[path to your devbox.sh WORKDIR]"
+  echo "  export Devbox_WORKDIR=[path to your devbox.bash WORKDIR]"
   exit 1
 fi
 
@@ -126,7 +126,7 @@ environment_init()
   if [[ ! -f "${config_path}" ]];
   then
     status "No environment configuration found."
-    echo "Run: devbox.sh create"
+    echo "Run: devbox.bash create"
     #exit 0
   #  status "Initializing etc/env/config.yaml using defaults from etc/env/config.yaml.dist"
   #  cp "${devbox_dir}/etc/env/config.yaml.dist" "${config_path}"
@@ -211,86 +211,25 @@ environment_clean()
   fi
 }
 
-environment_versions()
-{
-  #TODO check if environment versions virtualbox
-  Devbox_version=$(grep @version -m 1 "${devbox_dir}"/devbox.sh | tr -s ' ' | cut -d ' ' -f 3)
-
-  if [ -f /etc/bash_completion.d/devbox.sh ]
-  then
-    Devbox_autocomletion=$(grep @version /etc/bash_completion.d/devbox.sh | tr -s ' ' | cut -d ' ' -f 3)
-  else
-    Devbox_autocomletion="not installed"
-  fi 
-
-  Environment_bash=$(bash --version | grep "GNU bash" | tr -s ' ' | cut -d ' ' -f 4)
-
-  #TODO check if virtualbox not installed
-  Environment_virtualbox=$(vboxmanage --version)
-  #TODO check if kubeadm not installed
-  Environment_kubeadm=$(kubeadm version -o short)
-  Environment_minikube=$(minikube version | tr -s ' ' | cut -d ' ' -f 3)
-  #minikube kubectl -- --version
-  
-  # shellcheck disable=SC2154
-  case ${environment_ARGV[1]} in
-    devbox) 
-      echo "${Devbox_version}"
-      ;;
-    virtualbox)
-      echo "${Environment_virtualbox}"
-      ;;
-    minikube)
-      #TODO get short version
-      echo "${Environment_minikube}"
-      ;;
-    autocompletion)
-      echo "${Devbox_autocomletion}"
-      ;;
-    kubeadm)  
-      echo "${Environment_kubeadm}"
-      ;;
-    *)
-      #TODO check if not installed, mark red 
-      echo "devbox.sh script version: ${Devbox_version}"
-      #TODO check if Devbox_version != Devbox_autocomletion, mark yelow
-      echo "devbox.sh autocompletion: ${Devbox_autocomletion}"
-      echo "devbox.sh workdir path: ${Devbox_WORKDIR}"
-      echo "BASH version: ${Environment_bash}"
-      echo "OS: ${host_os}"
-      echo "Linux kernel version: $(uname -r)"
-      #Environment_description="$(lsb_release -a | grep Description)"
-      #echo ${Environment_description}
-      hostnamectl
-      echo "virtualbox: ${Environment_virtualbox}"
-      echo "Minikube: ${Environment_minikube}"
-      #TODO kubectl version
-      echo "kubeadm version: ${Environment_kubeadm}"
-      #TODO helm version
-      ;;
-  esac
-}
-
 # shellcheck disable=SC2154
 function environmen_run() {
   local command="${Environment_ARGV[0]}"
   local command_args=""
-  local comannd_run=""
+  local command_run=""
   local command_path="${devbox_dir}/bin/environment/${command}.bash"
   command_args=$(local IFS=" "; echo "${Environment_ARGV[@]}" | cut -d' ' -f2-)
   command_options="$(local IFS=" "; echo "${Environment_ARGO[@]}") $(local IFS=" "; echo "${Environment_ARGN[@]}")"
-  comannd_run="export Devbox_WORKDIR=${devbox_dir}; ${command_path} ${command_args} ${command_options}"
+  command_run="export Devbox_WORKDIR=${devbox_dir}; ${command_path} ${command_args} ${command_options}"
   case ${command} in
     create) environment_create ;;
     init) environment_init ;;
     list) environment_list ;;
     get) echo "Get!" ;;
     set) echo "Set!" ;;
-    update-check|show) 
-        eval "${comannd_run}"
+    update-check|show|versions) 
+        eval "${command_run}"
         ;;
     status) echo "Status!" ;;
-    versions) environment_versions ;;
     *) 
       echo "not correct command:${command}."
       exit 1 

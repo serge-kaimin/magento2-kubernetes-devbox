@@ -21,7 +21,7 @@ if [ -d "./../bin/" ] && [ -n "${Devbox_WORKDIR}" ]; then
   echo "should you change directory"
   echo "  cd ../bin | bin/environment.sh"
   echo "        or" 
-  echo "  export Devbox_WORKDIR=[path to your devbox.sh WORKDIR]"
+  echo "  export Devbox_WORKDIR=[path to your devbox.bash WORKDIR]"
   exit 1
 fi
 
