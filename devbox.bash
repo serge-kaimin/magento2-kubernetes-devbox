@@ -170,7 +170,7 @@ function devbox_run() {
             fi
             ;;
         *) 
-            echo "no comand recognized"
+            echo "command not recognized: ${command}"
             devbox_help 
             ;;
 esac
