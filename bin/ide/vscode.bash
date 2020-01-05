@@ -66,8 +66,8 @@ fi
 Code_path_arg=${Code_ARGV[0]}
 if [[ -n ${Code_path_arg} ]]; then
     #Code_path="${devbox_dir}${Code_path_arg}"
-    #TODO validate path
-    Code_path="${Code_path_arg}"
+    #TODO validate path and check if src is ok
+    Code_path="src/${Code_path_arg}"
 else
     echo "path should be provided, for example:"
     echo "devbox ide code ."
