@@ -12,7 +12,8 @@
 _devbox() 
 {
     local cur prev opts
-    local devbox_commands="help version environment instance ssh magento composer yarn autocompletion"
+    local devbox_commands="help version ide environment instance ssh magento composer yarn autocompletion"
+    local ide_commands="default code phpstorm"
     local devbox_environment_commands="create init start status stop help versions update-check"
     local devbox_environment_versions="devbox autocompletion bash virtualbox minikube kubeadm helm"
     local devbox_instance_commands="list install update start stop delete help"
@@ -29,12 +30,16 @@ _devbox()
     #TODO load hosts if $Devbox_WORKDIR
 
     case ${prev} in
-        devbox.sh)
+        devbox.bash)
             mapfile -t COMPREPLY < <(compgen -W "${devbox_commands}" -- "${cur}")
             return 0
             ;;
         environment) 
             mapfile -t COMPREPLY < <(compgen -W "${devbox_environment_commands}" -- "${cur}")
+            return 0
+            ;;
+        ide)
+            mapfile -t COMPREPLY < <(compgen -W "${ide_commands}" -- "${cur}")
             return 0
             ;;
         instance) 
@@ -77,4 +82,4 @@ _devbox()
   #  fi
 }
 
-complete -F _devbox devbox.sh
+complete -F _devbox devbox.bash
