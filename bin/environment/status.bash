@@ -41,3 +41,7 @@ kubernetes="${Devbox_kubenetes_default}"
 command_run="${devbox_dir}/bin/environment/status/${kubernetes}.bash"
 
 eval "${command_run}"
+
+echo "Kubernetes Cluster info"
+
+kubectl cluster-info 
