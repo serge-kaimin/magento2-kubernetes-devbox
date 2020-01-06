@@ -2,7 +2,7 @@
 #
 # Development Environment management tool for Magento Commerce 
 #
-# @Arguments: [create|init|delete|start|stop|test|ssh|cli|magento|composer|versions] [-f|--force|-v|--verbose|--version|--debug]
+# @Arguments: [create|init|delete|status|start|stop|test|ssh|cli|magento|composer|versions] [-f|--force|-v|--verbose|--version|--debug]
 # @author Sergey Kaimin (serge.kaimin@gmail.com)
 # @source https://github.com/serge-kaimin/magento2-kubernetes-devbox
 # shellcheck disable=SC2154
@@ -60,10 +60,9 @@ function environmen_run() {
   command_options="$(local IFS=" "; echo "${Environment_ARGO[@]}") $(local IFS=" "; echo "${Environment_ARGN[@]}")"
   command_run="export Devbox_WORKDIR=${devbox_dir}; ${command_path} ${command_args} ${command_options}"
   case ${command} in
-    create|update-check|show|versions|init|list|get) 
+    create|update-check|show|versions|init|list|get|status) 
         eval "${command_run}"
         ;;
-    status) echo "Status!" ;;
     *) 
       echo "not correct command:${command}."
       exit 1 
