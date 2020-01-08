@@ -26,8 +26,11 @@ function bash_run () {
     command_args="$(IFS=" "; echo "${IDE_ARGV[@]}" | cut -d' ' -f2-)"
     command_options="$(IFS=" "; echo "${IDE_ARGO[@]}")"
     command_options="$(IFS=" "; echo "${IDE_ARGO[@]}") $(IFS=" "; echo "${IDE_ARGN[@]}")"
+            #TODO get comand to run from Devbox.yaml
+
     command_path="${devbox_dir}/bin/ide/${IDE_name}.bash"
     comannd_run="${command_path} ${command_args} ${command_options}"
+
 
     case ${IDE_name} in
         code)
@@ -41,6 +44,7 @@ function bash_run () {
             exit 0 
             ;;
         sublime-text)
+            #TODO eval as well
             work_path="${devbox_dir}/src/magento2/"
             comannd_run="/opt/sublime_text/sublime_text"
             echo "Work path:${work_path}"
