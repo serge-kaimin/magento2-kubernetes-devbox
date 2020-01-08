@@ -40,7 +40,7 @@ source "${devbox_dir}/scripts/host/parse_yaml_to_variables.sh"
 #
 function get_value_by_name () {
     local var_path="$1"
-    echo "${!var_path}"
+    echo "${!var_path//[[:blank:]]/}"
 }
 
 #
