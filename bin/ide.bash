@@ -40,6 +40,14 @@ function bash_run () {
             eval "${comannd_run}"
             exit 0 
             ;;
+        sublime-text)
+            work_path="${devbox_dir}/src/magento2/"
+            comannd_run="/opt/sublime_text/sublime_text"
+            echo "Work path:${work_path}"
+            #TODO init the project and run --project
+            $(cd ${work_path} ; eval "${comannd_run} --add:${work_path}" )
+            exit 0
+            ;;
         default)
             [[ -n ${Bash_verbose} ]] && echo "Default IDE:${Devbox_ide_default}"
             if [[ -n ${Devbox_ide_default} ]]; then
