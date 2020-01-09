@@ -34,11 +34,11 @@ Arg_parser_prefix="Status_"
 eval $(parse_params "${@}")
 
 #get kubernetes name from Devbox.yaml, default=minikube
-kubernetes="${Devbox_kubenetes_default}"
+#kubernetes="${Devbox_kubernetes_default}}"
 
 [[ -n ${Status_verbose} ]] && echo "Default kubernetes: ${Devbox_kubenetes_default}"
 
-command_run="${devbox_dir}/bin/environment/status/${kubernetes}.bash"
+command_run="${devbox_dir}/bin/environment/kubernetes/${Devbox_kubernetes_default}-status.bash"
 
 eval "${command_run}"
 
