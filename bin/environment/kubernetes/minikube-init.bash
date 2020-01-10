@@ -43,15 +43,17 @@ if [[ ! $(isMinikubeRunning) -eq 1 ]]; then
     #TODO DefaultVMDriver     = "virtualbox"
 
     minikube_command="minikube start --cpus=${Devbox_kubernetes_minikube_cpus} --memory=${Devbox_kubernetes_minikube_memory}"
-    echo ${minikube_command}
-    eval ${minikube_command}
+    echo "${minikube_command}"
+    eval "${minikube_command}"
 
     #TODO set parameters from Devbox_minikube_set
     #minikube config set kubernetes-version v1.15.6
     #TODO enable addons from
-    : "${Devbox_minikube_addons_enable:="ingress"}"
-    #minikube addons enable ingress
+    #: "${Devbox_minikube_addons_enable:="ingress"}"
+    minikube addons enable ingress
+    #minikube addons enable ingress-dns
     #minikube addons enable heapster
+    devbox.bash environment build
   else 
     echo "Minikube is runnig stop it "
     exit 1
