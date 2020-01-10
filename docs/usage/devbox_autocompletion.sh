@@ -12,8 +12,10 @@
 _devbox() 
 {
     local cur prev opts
-    local devbox_commands="help version ide environment instance ssh magento composer yarn autocompletion"
+    local devbox_commands="help version ide helm environment instance ssh magento composer yarn autocompletion"
     local ide_commands="default code phpstorm sublime-text"
+    local ssh_commands="www magento2 magento1 cli php-fpm db redis elasticsearch minikube"
+    local helm_commands="detele instal verify"
     local devbox_environment_commands="create init start status stop help versions update-check"
     local devbox_environment_versions="devbox autocompletion bash virtualbox minikube kubeadm helm"
     local devbox_instance_commands="list install update start stop delete help"
@@ -46,6 +48,10 @@ _devbox()
             mapfile -t COMPREPLY < <(compgen -W "${devbox_instance_commands}" -- "${cur}")
             return 0
             ;;
+        helm) 
+            mapfile -t COMPREPLY < <(compgen -W "${helm_commands}" -- "${cur}")
+            return 0
+            ;;
         install)
             #TODO names of instances
             mapfile -t COMPREPLY < <(compgen -W "${devbox_instance_install}" -- "${cur}")
@@ -58,6 +64,11 @@ _devbox()
             ;;
         autocompletion)
             mapfile -t COMPREPLY < <(compgen -W "bash" -- "${cur}")
+            return 0
+            ;;
+
+        ssh)
+            mapfile -t COMPREPLY < <(compgen -W "${ssh_commands}" -- "${cur}")
             return 0
             ;;
         yarn)

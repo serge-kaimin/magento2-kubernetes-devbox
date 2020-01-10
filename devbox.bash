@@ -147,6 +147,9 @@ function devbox_run() {
         help) devbox_help ;;
         version) devbox_version ;;
         instance) devbox_instance ;;
+        helm) 
+            eval "${comannd_run}"
+            ;;
         ide|environment|yarn|composer|ssh|magento)
             #echo "${comannd_path}"
             #if [ -f "${comannd_path}")" ]; then 
