@@ -13,6 +13,14 @@ fullnameOverride: ""
 #  port: 8001
 #  nodePort: 30301
 
+## NFS Filestore instance
+nfs:
+  mountOptions: " "
+  ## Set IP address
+  server: "192.168.0.140"
+  ## Set file share name
+  path: "/var/www/magento2:/Code/magento2-kubernetes-devbox/src/magento2"
+
 xdebugService:
   type: NodePort
   port: 8002
