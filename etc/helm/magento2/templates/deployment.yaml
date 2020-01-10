@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pwastudion.fullname" . }}
+  labels:
+    {{- include "pwastudion.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "pwastudion.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "pwastudion.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "pwastudion.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+            exec:
+              command:
+                - ping
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            readinessProbe:
+          httpGet:
+            path: /index.php
+            port: http
+            httpHeaders:
+            - name: Host
+              value: {{ include "magento.host" . | quote }}
+              initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+              periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+              timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+              successThreshold: {{ .Values.readinessProbe.successThreshold }}
+              failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
