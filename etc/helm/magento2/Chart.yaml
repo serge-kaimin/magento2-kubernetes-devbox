@@ -10,6 +10,10 @@ dependencies:
   appVersion: 5.7.14
   repository: "@stable"
 
+- name: nfs-client-provisioner
+  server: 192.168.0.140
+  path: /var/www/magento2:/Code/magento2-kubernetes-devbox/src/magento2
+
 #- name: percona
 #   version: 
 
