@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "pwastudion.name" -}}
+{{- define "magento2.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "pwastudion.fullname" -}}
+{{- define "magento2.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,16 +27,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "pwastudion.chart" -}}
+{{- define "magento2.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "pwastudion.labels" -}}
-helm.sh/chart: {{ include "pwastudion.chart" . }}
-{{ include "pwastudion.selectorLabels" . }}
+{{- define "magento2.labels" -}}
+helm.sh/chart: {{ include "magento2.chart" . }}
+{{ include "magento2.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -46,17 +46,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "pwastudion.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "pwastudion.name" . }}
+{{- define "magento2.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "magento2.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "pwastudion.serviceAccountName" -}}
+{{- define "magento2.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "pwastudion.fullname" .) .Values.serviceAccount.name }}
+    {{ default (include "magento2.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}

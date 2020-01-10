@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "pwastudion.fullname" . }}
+  name: {{ include "magento2.fullname" . }}
   labels:
-    {{- include "pwastudion.labels" . | nindent 4 }}
+    {{- include "magento2.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "pwastudion.selectorLabels" . | nindent 6 }}
+      {{- include "magento2.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "pwastudion.selectorLabels" . | nindent 8 }}
+        {{- include "magento2.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "pwastudion.serviceAccountName" . }}
+      serviceAccountName: {{ include "magento2.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -31,27 +31,14 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-          {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
-            exec:
-              command:
-                - ping
-          {{- end }}
-          {{- if .Values.readinessProbe.enabled }}
+            httpGet:
+              path: /
+              port: http
           readinessProbe:
-            readinessProbe:
-          httpGet:
-            path: /index.php
-            port: http
-            httpHeaders:
-            - name: Host
-              value: {{ include "magento.host" . | quote }}
-              initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-              periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-              timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-              successThreshold: {{ .Values.readinessProbe.successThreshold }}
-              failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-          {{- end }}
+            httpGet:
+              path: /
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
