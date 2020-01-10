@@ -60,7 +60,7 @@ function environmen_run() {
   command_options="$(local IFS=" "; echo "${Environment_ARGO[@]}") $(local IFS=" "; echo "${Environment_ARGN[@]}")"
   command_run="export Devbox_WORKDIR=${devbox_dir}; ${command_path} ${command_args} ${command_options}"
   case ${command} in
-  create|update-check|show|versions|init|list|get|status|start|stop)
+  create|update-check|show|versions|init|list|get|status|build|start|stop)
         eval "${command_run}"
         ;;
       reload)
@@ -69,9 +69,6 @@ function environmen_run() {
         echo "Start"
 
         ;;
-      build)  
-      echo "build dockers for environment"
-      ;;
     *) 
       echo "not correct command:${command}."
       exit 1 
