@@ -34,7 +34,10 @@ echo "Images to build on minikube"
 if [[ ! $(isMinikubeRunning) -eq 1 ]]; then
 
     #TODO loop for all instances
-    cd "${devbox_dir}/etc/helm/magento2/images/" && build.bash
+
+    instance=${Devbox_env_default}
+    echo "Building instance etc/helm/${instance}/images/"
+    cd "${devbox_dir}/etc/helm/${instance}/images/" && build.bash
 
 fi
 
