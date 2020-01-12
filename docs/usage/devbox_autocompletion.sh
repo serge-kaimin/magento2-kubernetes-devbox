@@ -15,7 +15,7 @@ _devbox()
     local devbox_commands="help version ide helm environment instance ssh magento composer yarn autocompletion"
     local ide_commands="default code phpstorm sublime-text"
     local ssh_commands="www magento2 magento1 cli php-fpm db redis elasticsearch minikube"
-    local helm_commands="detele instal verify"
+    local helm_commands="detele instal dry-run verify"
     local devbox_environment_commands="create init start status stop help versions update-check"
     local devbox_environment_versions="devbox autocompletion bash virtualbox minikube kubeadm helm"
     local devbox_instance_commands="list install update start stop delete help"

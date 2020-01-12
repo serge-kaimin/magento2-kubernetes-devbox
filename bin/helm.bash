@@ -37,7 +37,7 @@ case ${command} in
         helm install magento2 magento2/ #--debug #--dry-run
         exit 0
         ;;
-    verify)
+    dry-run)
         #cd "${devbox_dir}/etc/helm"
         helm install magento2 "${devbox_dir}/etc/helm/magento2/" --dry-run #--debug 
         exit 0
