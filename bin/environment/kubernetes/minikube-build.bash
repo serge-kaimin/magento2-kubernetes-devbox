@@ -30,6 +30,8 @@ eval "$(parse_yaml "${devbox_dir}/etc/Devbox.yaml" "export Devbox_")"
 
 echo "Images to build on minikube"
 
+##TODO if instance name in args, then build only this instance
+##TODO check if required to add [instance-name]- to images, to be sure images are not linked bewteen instances
 ##TODO check if --force
 if [[ ! $(isMinikubeRunning) -eq 1 ]]; then
 
