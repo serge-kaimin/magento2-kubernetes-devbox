@@ -34,12 +34,17 @@ case ${command} in
     install)
         cd "${devbox_dir}/etc/helm"
         ## TODO check --force
-        helm install magento2 magento2/
+        helm install magento2 magento2/ #--debug #--dry-run
         exit 0
         ;;
     verify)
-        cd "${devbox_dir}/etc/helm"
-        helm verify magento2/
+        #cd "${devbox_dir}/etc/helm"
+        helm install magento2 "${devbox_dir}/etc/helm/magento2/" --dry-run #--debug 
+        exit 0
+        ;;
+    lint)
+        helm lint "${devbox_dir}/etc/helm/magento2/" --strict 
+        #TODO check exit code
         exit 0
         ;;
     delete)
@@ -48,10 +53,16 @@ case ${command} in
         ;;
 esac
 
-cd "${devbox_dir}/etc/helm"
-helm delete magento2
-helm install magento2 magento2/
 
+
+cd "${devbox_dir}/etc/helm"
+helm lint "${devbox_dir}/etc/helm/magento2/" #--strict 
+if [ $? -eq 0 ]
+then
+    echo "Lint passed"
+    helm delete magento2
+    helm install magento2 magento2/ #--debug
+fi
 
 #$(cd "${devbox_dir}/etc/helm" ; helm delete magento2 )
 
