@@ -72,6 +72,11 @@ mysql:
   persistence:
     size: 4Gi
 
+nfs-server:
+  fullname: magento-mysql
+  SHARED_DIRECTORY: /data/
+
+
 #redis:
 #  usePassword: false
 #  master:

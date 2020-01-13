@@ -37,10 +37,12 @@ build_docker magento2-nginx 1.15
 #TODO check if versions updateed 
 build_docker magento2-php-fpm 7.2
 
-echo "Build nginx image: ${docker_name}:${nginx_ver}"
-dockername="${docker_name}:${nginx_ver}"
-dockerfile="${docker_name}/${nginx_ver}/Dockerfile"
-dockerpath="${docker_name}/${nginx_ver}/"
+build_docker nfs-server-alpine 3.9
+
+#echo "Build nginx image: ${docker_name}:${nginx_ver}"
+#dockername="${docker_name}:${nginx_ver}"
+#dockerfile="${docker_name}/${nginx_ver}/Dockerfile"
+#dockerpath="${docker_name}/${nginx_ver}/"
 
 #docker build -t ${dockername} -f ${dockerfile} ${dockerpath}
 #docker build -t magento2-nginx:1.17 -f magento2-nginx/1.17/Dockerfile magento2-nginx/1.17/
@@ -48,7 +50,7 @@ dockerpath="${docker_name}/${nginx_ver}/"
 #echo ${command}
 #$(command)
 
-fpm_ver=7.2
+#fpm_ver=7.2
 # build php-fpm
 #echo "Build magento2-php-fpm image: magento2-php-fpm:${fpm_ver}"
 #docker build -t magento2-php-fpm:7.3 -f php-fpm/7.3/Dockerfile php-fpm/7.3/
