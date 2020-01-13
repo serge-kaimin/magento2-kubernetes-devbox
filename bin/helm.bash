@@ -21,34 +21,47 @@ set -o errexit
 
 ## Parse shell comands, sub-comands, arguments, anf flags
 # TODO: move it to external script and change values of assigned options from array Devbox_name="name of devbox"
+# shellcheck disable=SC1090
 source "${devbox_dir}/scripts/bash-parameters-parsing.sh"
+# shellcheck disable=SC1090
+source "${devbox_dir}/bin/include/common.bash"
 Arg_parser_prefix="Helm_"
 # shellcheck disable=SC2046
 eval $(parse_params "${@}" )
+
+eval "$(parse_yaml "${devbox_dir}/etc/Devbox.yaml" "export Devbox_")"
+[[ -n ${Helm_verbose} ]] && (parse_yaml "${devbox_dir}/etc/Devbox.yaml" "Devbox_")
 
 #TODO identify default instance
 
 command="${Helm_ARGV[0]}"
 
+instance=${Devbox_env_default}
+instance_directory="$(get_value_by_name "Devbox_env_instance_${instance}_helm_path")"
+instance_path="${devbox_dir}/etc/helm/${instance_directory}/"
+
+echo "Source code to be installed: ${instance_path}"
+
 case ${command} in  
     install)
         cd "${devbox_dir}/etc/helm"
         ## TODO check --force
-        helm install magento2 magento2/ #--debug #--dry-run
+
+        helm install "${instance}" "${instance_path}" #--debug #--dry-run
         exit 0
         ;;
     dry-run)
         #cd "${devbox_dir}/etc/helm"
-        helm install magento2 "${devbox_dir}/etc/helm/magento2/" --dry-run #--debug 
+        helm install "${instance}" "${instance_path}" --dry-run #--debug 
         exit 0
         ;;
     lint)
-        helm lint "${devbox_dir}/etc/helm/magento2/" --strict 
+        helm lint "${instance_path}" --strict 
         #TODO check exit code
         exit 0
         ;;
     delete)
-        helm delete magento2
+        helm delete "${instance}"
         exit 0
         ;;
 esac
