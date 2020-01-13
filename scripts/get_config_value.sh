@@ -10,4 +10,4 @@ if [[ -f "${devbox_dir}/etc/instance/$(getContext).yaml" ]]; then
     eval $(parse_yaml "${devbox_dir}/etc/instance/$(getContext).yaml")
 fi
 
-echo ${!variable_name}
+echo "${!variable_name}"
