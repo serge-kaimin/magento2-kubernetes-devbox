@@ -30,7 +30,6 @@ source "${devbox_dir}/bin/include/common.bash"
 
 eval "$(parse_yaml "${devbox_dir}/etc/Devbox.yaml" "export Devbox_")"
 
-
 # Print commands and their arguments as they are executed if --debug enabled
 [[ -n ${Show_debug} ]] && set -x
 
