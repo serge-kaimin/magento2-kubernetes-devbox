@@ -42,17 +42,34 @@ instance_path="${devbox_dir}/etc/helm/${instance_directory}/"
 
 echo "Source code to be installed: ${instance_path}"
 
+#TODO lint for specific commands
+cd "${devbox_dir}/etc/helm"
+helm lint "${instance_path}" #--strict 
+if [ $? -eq 0 ]
+then
+    echo "Lint OK"
+else
+    echo "Lint not passed"
+    exit 1
+fi
+
 case ${command} in  
     install)
-        cd "${devbox_dir}/etc/helm"
-        ## TODO check --force
-
+        # TODO check before delete instance
+        [[ -n ${Helm_force} ]] && helm delete "${instance}"
+        #helm delete "${instance}"
         helm install "${instance}" "${instance_path}" #--debug #--dry-run
+        echo "$(kubectl get pods | grep -ohE '${instance}-[a-z0-9\-]+')"
+
         exit 0
         ;;
+    start)
+        echo "$(kubectl get pods | grep -ohE '${instance}-[a-z0-9\-]+')"
+        ;;
     dry-run)
-        #cd "${devbox_dir}/etc/helm"
-        helm install "${instance}" "${instance_path}" --dry-run #--debug 
+        debug_helm=""
+        [[ -n ${Helm_debug} ]] && debug_helm="--debug"
+        helm install "${instance}" "${instance_path}" --dry-run ${debug_helm}
         exit 0
         ;;
     lint)
@@ -64,26 +81,11 @@ case ${command} in
         helm delete "${instance}"
         exit 0
         ;;
+    helm)
+        #TODO help
+        echo "commands available: install, start, delete, dry-run, lint"
+        ;;
+    *)
+        echo "Comand not recognized:${command}"
+        ;;
 esac
-
-
-
-cd "${devbox_dir}/etc/helm"
-helm lint "${devbox_dir}/etc/helm/magento2/" #--strict 
-if [ $? -eq 0 ]
-then
-    echo "Lint passed"
-    helm delete magento2
-    helm install magento2 magento2/ #--debug
-fi
-
-#$(cd "${devbox_dir}/etc/helm" ; helm delete magento2 )
-
-#$(cd "${devbox_dir}/etc/helm" ; helm install magento2 magento2/ )
-
-
-# dive magento2-nginx:1.17
-# echo "$(kubectl get pods | grep -ohE 'magento2-[a-z0-9\-]+')"
-
-echo "$(kubectl get pods | grep -ohE 'magento2-[a-z0-9\-]+')"
-
