@@ -138,7 +138,7 @@ environment_init()
           Init_git_branch="--branch ${Init_git_tag}"
           Init_git_option="$(get_value_by_name "Devbox_env_instance_${instance}_git_option")"
           echo " git option: ${Init_git_option}"
-          Init_git_path="${devbox_dir}/src/$(get_value_by_name "Devbox_env_instance_${instance}_git_path")"
+          Init_git_path="${devbox_dir}/src/$(get_value_by_name "Devbox_env_instance_${instance}_path")"
           echo " directory path: .src/${Init_git_path}/"
           Init_command="git clone ${Init_git_branch} ${Init_git_option} ${Init_git_url} ${Init_git_path}"
           #check if git is already cloned
