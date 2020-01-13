@@ -38,12 +38,18 @@ environment_versions()
   #TODO check if virtualbox not installed
   Environment_virtualbox=$(vboxmanage --version)
   #TODO check if kubeadm not installed
+  host_os="unix"
   Environment_kubeadm=$(kubeadm version -o short)
   Environment_minikube=$(minikube version | tr -s ' ' | cut -d ' ' -f 3)
+  Environment_helm=$(helm version)
   #minikube kubectl -- --version
-  
+
   # shellcheck disable=SC2154
-  case ${environment_ARGV[1]} in
+  command=${Versions_ARGV[0]}
+  case ${command} in
+    os)
+      uname -a
+      ;;
     devbox) 
       echo "${Devbox_version}"
       ;;
@@ -59,6 +65,9 @@ environment_versions()
       ;;
     kubeadm)  
       echo "${Environment_kubeadm}"
+      ;;
+    helm)
+      echo "${Environment_helm}"
       ;;
     *)
       #TODO check if not installed, mark red 
