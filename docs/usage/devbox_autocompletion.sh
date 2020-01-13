@@ -3,7 +3,7 @@
 # devbox.bash bash autocompletion for Magento Commerce development environment
 #
 # @author Sergey Kaimin (serge.kaimin@gmail.com)
-# @version 0.0.3beta (Jan-01-2020)
+# @version 0.0.4beta (Jan-01-2020)
 # @required bash-completion installed
 # @required export $Devbox_WORKDIR=[path] (optional)
 # @install sudo ln -s docs/usage/devbox_autocompletion.sh /etc/bash_completion.d/devbox.bash

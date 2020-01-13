@@ -4,7 +4,7 @@
 #
 # @Arguments: [environment|instance|ssh|magento|composer|yarn|version|get|set|show] [--force|--verbose|--version|--help]
 # @author Sergey Kaimin (serge.kaimin@gmail.com)
-# @version 0.0.3beta (Jan-02-2020)
+# @version 0.0.4beta (Jan-02-2020)
 # @source https://github.com/serge-kaimin/magento2-kubernetes-devbox
 # shellcheck disable=SC2154
 # shellcheck disable=SC1090
