@@ -2,7 +2,7 @@
 #
 # devbox tool to manage Magento Commerce development environment
 #
-# @Arguments: [environment|instance|ssh|magento|composer|yarn|version|get|set|show] [--force|--verbose|--version|--help]
+# @Arguments: [environment|project|ssh|magento|composer|yarn|version|get|set|show] [--force|--verbose|--version|--help]
 # @author Sergey Kaimin (serge.kaimin@gmail.com)
 # @version 0.0.3beta (Jan-02-2020)
 # @source https://github.com/serge-kaimin/magento2-kubernetes-devbox
@@ -32,19 +32,19 @@ eval $(parse_params "${@}" )
 eval "$(parse_yaml "${devbox_dir}/etc/Devbox.yaml" "export Devbox_")"
 [[ -n ${Helm_verbose} ]] && (parse_yaml "${devbox_dir}/etc/Devbox.yaml" "Devbox_")
 
-#TODO identify default instance
+#TODO identify default project
 
 command="${Helm_ARGV[0]}"
 
-instance=${Devbox_env_default}
-instance_directory="$(get_value_by_name "Devbox_env_instance_${instance}_helm_path")"
-instance_path="${devbox_dir}/etc/helm/${instance_directory}/"
+project=${Devbox_env_default}
+project_directory="$(get_value_by_name "Devbox_env_project_${project}_helm_path")"
+project_path="${devbox_dir}/etc/project/${project}/helm/${project_directory}/"
 
-echo "Source code to be installed: ${instance_path}"
+echo "Source code to be installed: ${project_path}"
 
 #TODO lint for specific commands
 cd "${devbox_dir}/etc/helm"
-helm lint "${instance_path}" #--strict 
+helm lint "${project_path}" #--strict 
 if [ $? -eq 0 ]
 then
     echo "Lint OK"
@@ -55,30 +55,30 @@ fi
 
 case ${command} in  
     install)
-        # TODO check before delete instance
-        [[ -n ${Helm_force} ]] && helm delete "${instance}"
-        #helm delete "${instance}"
-        helm install "${instance}" "${instance_path}" #--debug #--dry-run
-        echo "$(kubectl get pods | grep -ohE '${instance}-[a-z0-9\-]+')"
+        # TODO check before delete project
+        [[ -n ${Helm_force} ]] && helm delete "${project}"
+        #helm delete "${project}"
+        helm install "${project}" "${project_path}" #--debug #--dry-run
+        echo "$(kubectl get pods | grep -ohE '${project}-[a-z0-9\-]+')"
 
         exit 0
         ;;
     start)
-        echo "$(kubectl get pods | grep -ohE '${instance}-[a-z0-9\-]+')"
+        echo "$(kubectl get pods | grep -ohE '${project}-[a-z0-9\-]+')"
         ;;
     dry-run)
         debug_helm=""
         [[ -n ${Helm_debug} ]] && debug_helm="--debug"
-        helm install "${instance}" "${instance_path}" --dry-run ${debug_helm}
+        helm install "${project}" "${project_path}" --dry-run ${debug_helm}
         exit 0
         ;;
     lint)
-        helm lint "${instance_path}" --strict 
+        helm lint "${project_path}" --strict 
         #TODO check exit code
         exit 0
         ;;
     delete)
-        helm delete "${instance}"
+        helm delete "${project}"
         exit 0
         ;;
     helm)

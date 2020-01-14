@@ -3,7 +3,7 @@
 # devbox.bash bash autocompletion for Magento Commerce development environment
 #
 # @author Sergey Kaimin (serge.kaimin@gmail.com)
-# @version 0.0.4beta (Jan-01-2020)
+# @version 0.0.5beta (Jan-01-2020)
 # @required bash-completion installed
 # @required export $Devbox_WORKDIR=[path] (optional)
 # @install sudo ln -s docs/usage/devbox_autocompletion.sh /etc/bash_completion.d/devbox.bash
@@ -12,14 +12,14 @@
 _devbox() 
 {
     local cur prev opts
-    local devbox_commands="help version ide helm environment instance ssh magento composer yarn autocompletion"
+    local devbox_commands="help version ide helm environment project ssh magento composer yarn autocompletion"
     local ide_commands="default code phpstorm sublime-text"
     local ssh_commands="www magento2 magento1 cli php-fpm db redis elasticsearch minikube"
     local helm_commands="detele instal dry-run verify"
     local devbox_environment_commands="create init start status stop help versions update-check"
     local devbox_environment_versions="devbox autocompletion bash virtualbox minikube kubeadm helm"
-    local devbox_instance_commands="list install update start stop delete help"
-    local devbox_instance_install="--name"
+    local devbox_project_commands="list install update start stop delete help"
+    local devbox_project_install="--name"
     local devbox_yarn="install run add init remove publish self-update upgrade prune policies audit info"
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
@@ -27,7 +27,7 @@ _devbox()
 
     opts="--help --verbose --version --debug --force"
     
-    #TODO load instances if $Devbox_WORKDIR
+    #TODO load projects if $Devbox_WORKDIR
     
     #TODO load hosts if $Devbox_WORKDIR
 
@@ -44,8 +44,8 @@ _devbox()
             mapfile -t COMPREPLY < <(compgen -W "${ide_commands}" -- "${cur}")
             return 0
             ;;
-        instance) 
-            mapfile -t COMPREPLY < <(compgen -W "${devbox_instance_commands}" -- "${cur}")
+        project)
+            mapfile -t COMPREPLY < <(compgen -W "${devbox_project_commands}" -- "${cur}")
             return 0
             ;;
         helm) 
@@ -53,8 +53,8 @@ _devbox()
             return 0
             ;;
         install)
-            #TODO names of instances
-            mapfile -t COMPREPLY < <(compgen -W "${devbox_instance_install}" -- "${cur}")
+            #TODO names of projects
+            mapfile -t COMPREPLY < <(compgen -W "${devbox_project_install}" -- "${cur}")
 
             return 0
             ;;

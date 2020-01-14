@@ -28,7 +28,6 @@ source "${devbox_dir}/scripts/host/parse_yaml_to_variables.sh"
 # shellcheck disable=SC1090
 source "${devbox_dir}/bin/include/common.bash"
 
-
 eval "$(parse_yaml "${devbox_dir}/etc/Devbox.yaml" "export Devbox_")"
 
 #
@@ -38,16 +37,15 @@ environment_build()
 {
   #bash "${devbox_dir}/scripts/host/check_requirements.sh"
 
-    #TODO check if run: start [instance]
+    #TODO check if run: start [project]
 
-    echo "List of instances available: ${Devbox_env_instances}"
+    echo "List of project available: ${Devbox_env_projects}"
     
     # shellcheck disable=SC2116
-    for instance in $(echo "${Devbox_env_instances}"); do
-        instance_enabled="Devbox_env_instance_${instance}_enabled"
-        if [[ "${!instance_enabled}" == "true" ]] ; then
-            echo "Instance: ${instance} - enabled"
-
+    for project in $(echo "${Devbox_env_projects}"); do
+        project_enabled="Devbox_env_project_${project}_enabled"
+        if [[ "${!project_enabled}" == "true" ]] ; then
+            echo "Project: ${project} - enabled"
         fi
     done
 

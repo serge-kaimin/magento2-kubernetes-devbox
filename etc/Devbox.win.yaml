@@ -1,11 +1,9 @@
 env:
   # default environment for ssh, composer, and other tools
   default: magento2         
-  # list of available instances
-  instances: magento2 magento2monolith pwastudio
-  # configuration of instances
-  instance:
-    #Instance for Magento Commerce deployment in containers
+  # list of available projects
+  projects: magento2 magento2monolith pwastudio
+  project:
     magento2:
       enabled: true
       apps: www admin
@@ -36,7 +34,7 @@ env:
           option: --single-branch
           directory: magento2containers     # ./etc/local/helm/magento2/
     # Magento Commerce monolith
-    magento2monolith: #Instance for Magento Commerce monolith
+    magento2monolith: #project for Magento Commerce monolith
       enabled: false
       source: directory
       directory:
@@ -45,7 +43,7 @@ env:
         source: directory
         path: magento2-monolith        #./etc/helm/magento2-monolith
     # Magento Commerce PWA Studio
-    pwastudio: #Instance for Magento Commerce PWA Studio containers
+    pwastudio: #project for Magento Commerce PWA Studio containers
       enabled: false
       path: venia
       app:

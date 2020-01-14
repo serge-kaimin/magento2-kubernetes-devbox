@@ -2,7 +2,7 @@
 #
 # Initialize Vs Code Development Environment for Magento Commerce 
 #
-# @Arguments: <path> [<instance-name>] [--force|--verbose|--version|--debug]
+# @Arguments: <path> [<project-name>] [--force|--verbose|--version|--debug]
 # @author Sergey Kaimin (serge.kaimin@gmail.com)
 # @source https://github.com/serge-kaimin/magento2-kubernetes-devbox
 # shellcheck disable=SC2154
@@ -26,10 +26,10 @@ echo "Init Microsoft Visual Code environment"
 
 [[ -n ${Codeinit_verbose} ]] && echo "--user-data-dir path:${Codeinit_path}"
 
-#TODO check if <instance-name> !=code
-Code_init_instance="${Codeinit_ARGV[1]}"
-#TODO check if instance != code OR ide
-[[ -n ${Code_init_instance} ]] && echo "Initialize instance: ${Code_init_instance}"
+#TODO check if <project-name> !=code
+Code_init_project="${Codeinit_ARGV[1]}"
+#TODO check if project != code OR ide
+[[ -n ${Code_init_project} ]] && echo "Initialize project: ${Code_init_project}"
 
 #
 ## Install VS Code extensions

@@ -4,7 +4,7 @@ environment_clean()
 {
   status "Clean up the environmen before initialization"
   force_project_cleaning=0
-  #force_instance_cleaning=0
+  #force_project_cleaning=0
   #force_codebase_cleaning=0
   force_phpstorm_config_cleaning=0
 

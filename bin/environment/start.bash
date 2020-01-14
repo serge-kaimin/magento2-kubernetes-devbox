@@ -40,16 +40,15 @@ environment_start()
 {
   #bash "${devbox_dir}/scripts/host/check_requirements.sh"
 
-    #TODO check if run: start [instance]
+    #TODO check if run: start [project]
 
-    echo "List of instances available: ${Devbox_env_instances}"
+    echo "List of project available: ${Devbox_env_project}"
     
     # shellcheck disable=SC2116
-    for instance in $(echo "${Devbox_env_instances}"); do
-        instance_enabled="Devbox_env_instance_${instance}_enabled"
-        if [[ "${!instance_enabled}" == "true" ]] ; then
-            echo "Instance: ${instance} - enabled"
-
+    for project in $(echo "${Devbox_env_projects}"); do
+        project_enabled="Devbox_env_project_${project}_enabled"
+        if [[ "${!project_enabled}" == "true" ]] ; then
+            echo "Project: ${project} - enabled"
         fi
     done
 

@@ -2,15 +2,23 @@
 #
 # devbox tool to manage Magento Commerce development environment
 #
-# @Arguments: [environment|instance|ssh|magento|composer|yarn|version|get|set|show] [--force|--verbose|--version|--help]
+# @Arguments: [environment|project|ssh|magento|composer|yarn|version|get|set|show] [--force|--verbose|--version|--help]
 # @author Sergey Kaimin (serge.kaimin@gmail.com)
-# @version 0.0.4beta (Jan-02-2020)
+# @version 0.0.5beta (Jan-02-2020)
 # @source https://github.com/serge-kaimin/magento2-kubernetes-devbox
 # shellcheck disable=SC2154
 # shellcheck disable=SC1090
 
 # make script exit when a command fails.
 set -o errexit
+#set -euo pipefail
+
+
+# Ensure the bash version is new enough
+if [ "${BASH_VERSINFO[0]}" -lt 4 ]; then
+	echo "Error: This tool needs Bash 4.x to run." >&2
+	exit 1
+fi
 
 #
 ## Change workdir if $Devbox_WORKDIR
@@ -98,23 +106,23 @@ devbox_version ()
 }
 
 #
-## Command: instance
+## Command: project
 #
-devbox_instance ()
+devbox_project ()
 {
     case ${Devbox_ARGV[1]} in 
         list) 
-            echo "List of instances"
+            echo "List of projects"
             "${devbox_dir}/bin/environment.sh list"
             ;;
         init) 
-            echo "Init instance"
-            # TODO add instance name, and verbose if specified
+            echo "Init project"
+            # TODO add project name, and verbose if specified
             "${devbox_dir}/bin/environment.sh init"
             ;;
         start) 
             echo "Start!"
-            #TODO add instance name, and verbose if specified
+            #TODO add project name, and verbose if specified
             "${devbox_dir}/bin/environment.sh start"
             ;;
         status) echo "Status!" ;;
@@ -146,7 +154,7 @@ function devbox_run() {
     case ${command} in
         help) devbox_help ;;
         version) devbox_version ;;
-        instance) devbox_instance ;;
+        project) devbox_project ;;
         helm) 
             eval "${comannd_run}"
             ;;

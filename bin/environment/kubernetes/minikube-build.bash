@@ -30,16 +30,16 @@ eval "$(parse_yaml "${devbox_dir}/etc/Devbox.yaml" "export Devbox_")"
 
 echo "Images to build on minikube"
 
-##TODO if instance name in args, then build only this instance
-##TODO check if required to add [instance-name]- to images, to be sure images are not linked bewteen instances
+##TODO if project name in args, then build only this project
+##TODO check if required to add [project-name]- to images, to be sure images are not linked bewteen project
 ##TODO check if --force
 if [[ ! $(isMinikubeRunning) -eq 1 ]]; then
 
-    #TODO loop for all instances
+    #TODO loop for all project
 
-    instance=${Devbox_env_default}
-    echo "Building instance etc/helm/${instance}/images/"
-    cd "${devbox_dir}/etc/helm/${instance}/images/" && build.bash
+    project=${Devbox_env_default}
+    echo "Building project images in etc/projects/${project}/images/:"
+    cd "${devbox_dir}/etc/projects/${project}/images/" && build.bash
 
 fi
 

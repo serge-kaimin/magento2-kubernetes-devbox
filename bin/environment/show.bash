@@ -4,8 +4,8 @@
 #
 # usage: 
 #
-#   devbox environment show [instance_name] [--all] [--verbose] [--debug] [--devbox]
-#   devbox environment show instance_name [get={parameter name}"]
+#   devbox environment show [project_name] [--all] [--verbose] [--debug] [--devbox]
+#   devbox environment show project_name [get={parameter name}"]
 #
 # @Arguments: [environment name] .. [environment name]
 # @Arguments: [options]
@@ -49,7 +49,7 @@ function show_devbox()
     echo "${parsed_yaml}"
 }
 
-is_instance_enabled()
+is_project_enabled()
 {
     local name=$1
 }
@@ -57,7 +57,7 @@ is_instance_enabled()
 #
 ## Show insance [name] YAML configuration
 #
-function show_instance() 
+function show_projetc() 
 {
     #TODO show overrides in verbose mode
     # shellcheck disable=SC2124
@@ -68,13 +68,13 @@ function show_instance()
     local chart_path="${devbox_dir}/etc/helm/${path}/Chart.yaml"
     local values_path="${devbox_dir}/etc/helm/${path}/values.yaml"
     local var_enabled="Devbox_env_${name}_enabled"
-    local instance_enabled="${!var_enabled}"
+    local project_enabled="${!var_enabled}"
 
-    [[ -n ${Show_verbose} ]] && echo "Instance name: ${name}"
-    [[ -n ${Show_verbose} ]] && echo "Instance enabled: ${var_enabled}=${instance_enabled}"
+    [[ -n ${Show_verbose} ]] && echo "Project name: ${name}"
+    [[ -n ${Show_verbose} ]] && echo "Project enabled: ${var_enabled}=${project_enabled}"
 
-    eval "$(parse_yaml "${chart_path}" "Environment_env_${instance}_")"
-    parse_yaml "${chart_path}" "Environment_env_${instance}_"
+    eval "$(parse_yaml "${chart_path}" "Environment_env_${project}_")"
+    parse_yaml "${chart_path}" "Environment_env_${project}_"
 
     if [[ -n ${gets} ]]; then
         # shellcheck disable=SC2116
@@ -96,7 +96,7 @@ function show_instance()
     #env_path="${devbox_dir}/etc/env/${name}.yaml"
     #${devbox_dir}/etc/env/${name}.yaml
     
-    #TODO check if instance not enabled
+    #TODO check if project not enabled
     if [[ -f ${chart_path} ]]; then
         [[ -n ${Show_verbose} ]] && echo "Helm file loaded: ${chart_path}"
         parse_yaml "${chart_path}" "Helm_${name}_chart_"
@@ -112,29 +112,29 @@ function show_instance()
     fi
 }
 
-function show_instances() 
+function show_projects()
 {
     # shellcheck disable=SC2124
-    local instances=${Devbox_env_instances[@]}
-    [[ -n ${Show_verbose} ]] && echo "Available environment: ${instances}"
+    local projects=${Devbox_env_projects[@]}
+    [[ -n ${Show_verbose} ]] && echo "Available environment: ${projects}"
     # shellcheck disable=SC2116
-    for instance in $(echo "${instances}"); do
-        show_instance "${instance}"
+    for project in $(echo "${projects}"); do
+        show_project "${project}"
     done
 }
 
 #
 # Main 
 #
-#[[ -n ${Show_all} ]] && show_devbox ; show_instances ; exit 0
+#[[ -n ${Show_all} ]] && show_devbox ; show_projects ; exit 0
 
 [[ -n ${Show_devbox} ]] && show_devbox
 
-instance_name=${Show_ARGV[0]}
-if [[ -n ${instance_name} ]]; then
+project_name=${Show_ARGV[0]}
+if [[ -n ${project_name} ]]; then
     [[ -n ${Show_verbose} ]] && echo "Ags supplied: ${Show_ARGV[*]}"
 
     names="${Show_ARGV[*]}"
     # shellcheck disable=SC2116
-    for name in $(echo "${names}"); do show_instance "${name}" ; done
+    for name in $(echo "${names}"); do show_project "${name}" ; done
 fi

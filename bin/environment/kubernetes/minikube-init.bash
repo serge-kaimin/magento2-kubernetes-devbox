@@ -48,20 +48,11 @@ if [ -f "${devbox_dir}/.devbox/minikube" ] ; then
       filterDevboxOutput "${lastline}"
     }
     rm "${devbox_dir}/.devbox/minikube"
-  else
-  cat << EOF
-
-minicube already initialized
-use devbox.bash environment start
-or devbox.bash environment init --force to delete minicube
-
-EOF
-    exit 1
   fi
-
 fi
-echo "minikube: ${minikube_version}"
-echo "${minikube_version}" > "${devbox_dir}/.devbox/minikube"
+
+#echo "minikube: ${minikube_version}"
+#echo "${minikube_version}" > "${devbox_dir}/.devbox/minikube"
 
 if [[ $(isMinikubeRunning) -eq 1 ]]; then
   echo "Minikube is running"
@@ -82,27 +73,26 @@ use devbox.bash environment stop
 or devbox.bash environment init --force to delete minicube and reinitialize
 
 EOF
-    exit 1
+    #exit 1
   fi
 fi
 
 status "Starting minikube"
 
-exit 1
+#exit 1
 
 ##TODO check if --force
 if [[ ! $(isMinikubeRunning) -eq 1 ]]; then
     #TODO validate minikube version
     : "${Devbox_kubernetes_minikube_cpus:="2"}"
     : "${Devbox_kubernetes_minikube_memory:="2048"}"
-    # TODO --kubernetes-version=v1.x.x
+    #: "${Devbox_kubernetes_minikube_disk:="20000"}"
 
     minikube config set cpus "${Devbox_kubernetes_minikube_cpus}"
     minikube config set memory "${Devbox_kubernetes_minikube_memory}"
     minikube config set vm-driver "${Devbox_kubernetes_minikube_vm_driver}"
-
-    #TODO minikube config set disk-size 20000MB
-    #minikube config set kubernetes-version v1.15.6  
+    #minikube config set kubernetes-version "${Devbox_kubernetes_minikube_version}"
+    #minikube config set vm-driver "${Devbox_kubernetes_minikube_disk}"
 
     minikube_command="minikube start --cpus=${Devbox_kubernetes_minikube_cpus} --memory=${Devbox_kubernetes_minikube_memory} --vm-driver=${Devbox_kubernetes_minikube_vm_driver}"
     echo "${minikube_command}"

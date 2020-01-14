@@ -52,7 +52,7 @@ if [[ -n ${Code_init} ]]; then
   exit 0
 fi
 
-#TODO check if -instance=<name> supplied then run code from specific directory
+#TODO check if --project=<name> supplied then run code from specific directory
 if [[ -n ${Code_clean} ]]; then
     echo "c:${command_run}"
     eval "${command_run}"    

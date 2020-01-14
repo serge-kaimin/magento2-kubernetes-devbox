@@ -1,0 +1,19 @@
+Usage: 
+    devbox project [NAME] [OPTIONS]
+    bin/project [NAME] [OPTIONS]
+
+  Control project on Kubrenetes
+
+Options:
+  -h, --help    - Help 
+  -v, --verbose - verbose output
+  -all          - do comand on all available project
+
+Management Commands:
+    list        - list projects
+    install     - install project
+    start       - start dev environment
+    status      - show status of the dev environment 
+    stop        - stop dev environment and all of the components
+    upgrade     - upgrade project
+    delete      - delete project 

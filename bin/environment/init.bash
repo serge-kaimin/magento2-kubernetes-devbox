@@ -59,20 +59,20 @@ environment_kubernetes_init()
 #
 ## init local hosts environment 
 #
-# naming urls: app.instance.localhost
+# naming urls: app.project.localhost
 # /etc/hosts/
-# .x.x.x. ${url}      #instance:=${instance}
+# .x.x.x. ${url}      #project:=${project}
 environment_hosts_init() {
   # Hosts must be configured before cluster is started
-  get list of instances
-  echo "List of instances available: ${Devbox_env_instances}"
+  #get list of projects
+  echo "List of projects available: ${Devbox_env_projects]}"
 
-  for instance in $(echo "${Devbox_env_instances}"); do
-    echo "Instance:${instance}"
+  for project in $(echo "${Devbox_env_projects}"); do
+    echo "Project:${project}"
   done
-  #instance_names=$(getInstanceList)
-  #if [[ -z ${instance_names} ]]; then
-  #  instance_names="default"
+  #project_names=$(getInstanceList)
+  #if [[ -z ${project_names} ]]; then
+  #  project_names="default"
   #fi
   #"${devbox_dir}/scripts/host/configure_etc_hosts.sh"
 }
@@ -108,36 +108,34 @@ environment_init()
   # TODO: test environment
   # TODO: init [name]
   # TODO: init -all
-  # TODO get data from Devbox_instance
+  # TODO get data from Devbox_projects
 
   #config_path="${devbox_dir}/etc/env/config.yaml"
 
+  #TODO check which kubernetes type to init
   environment_kubernetes_init
 
-  # get list of instances
-  echo "List of instances available: ${Devbox_env_instances}"
+  # get list of projects
+  echo "List of projects available: ${Devbox_env_projects}"
 
-  for instance in $(echo "${Devbox_env_instances}"); do
-    #echo "Instance:${instance}"
-    instance_enabled="Devbox_env_instance_${instance}_enabled"
-    if  [[ "${!instance_enabled}" == "true" ]] ; then
-      echo "Instance: ${instance} - enabled"
+  for project in $(echo "${Devbox_env_projects}"); do
+    project_enabled="Devbox_env_projects_${project}_enabled"
+    if  [[ "${!project_enabled}" == "true" ]] ; then
+      echo "Project: ${project} - enabled"
 
-      #
       ## clone source to the src/[name]
-      #
-      Init_instance_source=$(get_value_by_name "Devbox_env_instance_${instance}_source")
-      case "${Init_instance_source}" in
+      Init_project_source=$(get_value_by_name "Devbox_env_project_${project}_source")
+      case "${Init_project_source}" in
         git)
-          echo "instance is configured as git"
-          Init_git_url="$(get_value_by_name "Devbox_env_instance_${instance}_git_url")"
+          echo "project is configured as git"
+          Init_git_url="$(get_value_by_name "Devbox_env_project_${project}_git_url")"
           echo " git url: ${Init_git_url}"
-          Init_git_tag="$(get_value_by_name "Devbox_env_instance_${instance}_git_tag")"
+          Init_git_tag="$(get_value_by_name "Devbox_env_project_${project}_git_tag")"
           echo " git tag: ${Init_git_tag}"
           Init_git_branch="--branch ${Init_git_tag}"
-          Init_git_option="$(get_value_by_name "Devbox_env_instance_${instance}_git_option")"
+          Init_git_option="$(get_value_by_name "Devbox_env_project_${project}_git_option")"
           echo " git option: ${Init_git_option}"
-          Init_git_path="${devbox_dir}/src/$(get_value_by_name "Devbox_env_instance_${instance}_path")"
+          Init_git_path="${devbox_dir}/src/$(get_value_by_name "Devbox_env_project_${project}_path")"
           echo " directory path: .src/${Init_git_path}/"
           Init_command="git clone ${Init_git_branch} ${Init_git_option} ${Init_git_url} ${Init_git_path}"
           #check if git is already cloned
@@ -152,19 +150,14 @@ environment_init()
           fi
           ;;
         directory) 
-          echo "instance is configured as directory"
+          echo "project is configured as directory"
           ;;
         *)  
-          echo "wrong source: ${Init_instance_source}."
+          echo "wrong source: ${Init_project_source}."
           ;;
       esac
-
-
-
-    
-
     else
-      echo "Instance available: ${instance} - disabled in Devbox.yaml. Do not initialize."
+      echo "Projects available: ${project} - disabled in Devbox.yaml. Do not initialize."
     fi
   done
 
@@ -176,12 +169,8 @@ environment_init()
   
   exit 0
 
-  
-   
-
   # TODO: Do not clean up environment when '-f' flag was not specified
   bash "${devbox_dir}/scripts/host/k_install_environment.sh"
-
 }
 
 environment_init

@@ -8,7 +8,7 @@ Options:
   
 Management Commands
     environment - create, init, start, status, stop, delete and prune devbox's environment
-    instance    - list, install, update, upgrade instance using Helm in Kubenetes cluster
+    project     - list, install, update, upgrade project using Helm in Kubenetes cluster
     get         - gets value(s) from etc/devenv.yaml
     set         - sets value in etc/devenv.yaml
     show        - show current configuration
