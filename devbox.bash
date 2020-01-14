@@ -113,17 +113,17 @@ devbox_project ()
     case ${Devbox_ARGV[1]} in 
         list) 
             echo "List of projects"
-            "${devbox_dir}/bin/environment.sh list"
+            "${devbox_dir}/bin/environment.bash" list
             ;;
         init) 
             echo "Init project"
             # TODO add project name, and verbose if specified
-            "${devbox_dir}/bin/environment.sh init"
+            "${devbox_dir}/bin/project/init.bash"
             ;;
         start) 
             echo "Start!"
             #TODO add project name, and verbose if specified
-            "${devbox_dir}/bin/environment.sh start"
+            "${devbox_dir}/bin/environment.bash" start
             ;;
         status) echo "Status!" ;;
         stop) echo "Stop!" ;;

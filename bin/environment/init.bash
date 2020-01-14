@@ -115,53 +115,7 @@ environment_init()
   #TODO check which kubernetes type to init
   environment_kubernetes_init
 
-  # get list of projects
-  echo "List of projects available: ${Devbox_env_projects}"
-
-  for project in $(echo "${Devbox_env_projects}"); do
-    project_enabled="Devbox_env_projects_${project}_enabled"
-    if  [[ "${!project_enabled}" == "true" ]] ; then
-      echo "Project: ${project} - enabled"
-
-      ## clone source to the src/[name]
-      Init_project_source=$(get_value_by_name "Devbox_env_project_${project}_source")
-      case "${Init_project_source}" in
-        git)
-          echo "project is configured as git"
-          Init_git_url="$(get_value_by_name "Devbox_env_project_${project}_git_url")"
-          echo " git url: ${Init_git_url}"
-          Init_git_tag="$(get_value_by_name "Devbox_env_project_${project}_git_tag")"
-          echo " git tag: ${Init_git_tag}"
-          Init_git_branch="--branch ${Init_git_tag}"
-          Init_git_option="$(get_value_by_name "Devbox_env_project_${project}_git_option")"
-          echo " git option: ${Init_git_option}"
-          Init_git_path="${devbox_dir}/src/$(get_value_by_name "Devbox_env_project_${project}_path")"
-          echo " directory path: .src/${Init_git_path}/"
-          Init_command="git clone ${Init_git_branch} ${Init_git_option} ${Init_git_url} ${Init_git_path}"
-          #check if git is already cloned
-          if [[ -d "${Init_git_path}/.git"  && ! -n ${Show_verbose} ]] ; then 
-            echo "git already cloned to ${Init_git_path}"
-            echo "you can initialize with --force option or do manually"
-            echo "     cd ${Init_git_path} ; git pull"
-            echo ""
-          else
-            echo "${Init_command}"
-            eval "${Init_command}"
-          fi
-          ;;
-        directory) 
-          echo "project is configured as directory"
-          ;;
-        *)  
-          echo "wrong source: ${Init_project_source}."
-          ;;
-      esac
-    else
-      echo "Projects available: ${project} - disabled in Devbox.yaml. Do not initialize."
-    fi
-  done
-
-  #ls "${devbox_dir}/etc/env/*"
+  #"${devbox_dir}/bin/project/init.bash"
 
   # https://stackoverflow.com/questions/13322485/how-to-get-the-primary-ip-address-of-the-local-machine-on-linux-and-os-x
   nfs_server_ip="$("${devbox_dir}/bin/include/internalip.sh")"
